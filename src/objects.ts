@@ -26,13 +26,24 @@ function createBook(
   publishedYear: number,
   genre: string
 ): Book {
-  // write your code here...
-
-  return {} as Book; // replace "{} as Book" with what you see is fit
+  return {
+    title: title,
+    author: author,
+    publishedYear: publishedYear,
+    genre: genre,
+  };
 }
 
+const newBook = createBook(
+  "JavaScript: The Definitive Guide",
+  "David Flanagan",
+  2020,
+  "Programming"
+);
+console.log(newBook);
+
 // DO NOT CHANGE THE LINE OF CODE BELOW (you can use it for testing your code)
-const book = createBook(
+const originalBook = createBook(
   "Hitchhiker's Guide to The Galaxy",
   "Douglas Adams",
   1965,
@@ -51,8 +62,10 @@ const book = createBook(
 function printBookTitleAndYear(book: Book): string {
   // write your code here...
 
-  return ""; // replace empty string with what you see is fit
+  return `${book.title} ${book["publishedYear"]}`;
 }
+
+console.log(printBookTitleAndYear(originalBook));
 
 /**
  * `addPageCount` function:
@@ -67,8 +80,13 @@ function printBookTitleAndYear(book: Book): string {
 function addPageCount(book: Book, pageCount: number): Book {
   // write your code here...
 
-  return book;
+  return {
+    ...book,
+    pageCount: pageCount,
+  };
 }
+const bookWithPages = addPageCount(originalBook, 320);
+console.log(bookWithPages);
 
 /**
  * `addISBN` function:
@@ -83,14 +101,20 @@ function addPageCount(book: Book, pageCount: number): Book {
  *   //       author: "Douglas Adams",
  *   //       publishedYear: 1965,
  *   //       genre: "Sci-Fi",
- *   //       ISBN: "978-3-16-148410-0" // ✅ added ISBN
+ *   //       ISBN: "978-3-16-148410-0"
  *   //    }
  */
 function addISBN(book: Book, ISBN: string): Book {
   // write your code here...
 
-  return book;
+  return {
+    ...book,
+    ISBN: ISBN,
+  };
 }
+
+const bookWithISBN = addISBN(bookWithPages, "978-3-16-148410-0");
+console.log(bookWithISBN);
 
 /**
  * `updatePublishedYear` function:
@@ -103,7 +127,7 @@ function addISBN(book: Book, ISBN: string): Book {
  *    // => {
  *   //       title: "Hitchhiker's Guide to The Galaxy",
  *   //       author: "Douglas Adams",
- *   //       publishedYear: 2022, // ✅ updated publishedYear
+ *   //       publishedYear: 2022,
  *   //       genre: "Sci-Fi",
  *   //       ISBN: "978-3-16-148410-0"
  *   //    }
@@ -111,8 +135,14 @@ function addISBN(book: Book, ISBN: string): Book {
 function updatePublishedYear(book: Book, newYear: number): Book {
   // write your code here...
 
-  return book;
+  return {
+    ...book,
+    publishedYear: newYear,
+  };
 }
+
+const bookWithUpdatedYear = updatePublishedYear(bookWithISBN, 2022);
+console.log(bookWithUpdatedYear);
 
 /**
  * `addSecondAuthor` function:
@@ -127,7 +157,7 @@ function updatePublishedYear(book: Book, newYear: number): Book {
  *  addSecondAuthor(book, "John Doe");
  *   // => {
  *   //       title: "Hitchhiker's Guide to The Galaxy",
- *   //       author: ["Douglas Adams", "John Doe"], // ✅ two authors now
+ *   //       author: ["Douglas Adams", "John Doe"]
  *   //       publishedYear: 1965,
  *   //       genre: "Sci-Fi",
  *   //       ISBN: "978-3-16-148410-0"
@@ -135,9 +165,21 @@ function updatePublishedYear(book: Book, newYear: number): Book {
  */
 function addSecondAuthor(book: Book, additionalAuthor: string): Book {
   // write your code here...
-
-  return book;
+  if (Array.isArray(book.author)) {
+    return {
+      ...book,
+      author: [...book.author, additionalAuthor],
+    };
+  } else {
+    return {
+      ...book,
+      author: [book.author, additionalAuthor],
+    };
+  }
 }
+
+const finalBook = addSecondAuthor(bookWithUpdatedYear, "John Doe");
+console.log(finalBook);
 
 export {
   createBook,
